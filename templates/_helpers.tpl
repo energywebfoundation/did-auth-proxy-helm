@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "did-auth-proxy.name" -}}
+{{- define "did-auth-proxy-helm.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "did-auth-proxy.fullname" -}}
+{{- define "did-auth-proxy-helm.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "did-auth-proxy.chart" -}}
+{{- define "did-auth-proxy-helm.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "did-auth-proxy.labels" -}}
-helm.sh/chart: {{ include "did-auth-proxy.chart" . }}
-{{ include "did-auth-proxy.selectorLabels" . }}
+{{- define "did-auth-proxy-helm.labels" -}}
+helm.sh/chart: {{ include "did-auth-proxy-helm.chart" . }}
+{{ include "did-auth-proxy-helm.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "did-auth-proxy.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "did-auth-proxy.name" . }}
+{{- define "did-auth-proxy-helm.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "did-auth-proxy-helm.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "did-auth-proxy.serviceAccountName" -}}
+{{- define "did-auth-proxy-helm.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "did-auth-proxy.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "did-auth-proxy-helm.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

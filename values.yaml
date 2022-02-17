@@ -1,18 +1,18 @@
-# Default values for did-auth-proxy.
+# Default values for did-auth-proxy-helm.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: 098061033856.dkr.ecr.us-west-2.amazonaws.com/did-auth-proxy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "latest"
 
 imagePullSecrets: []
-nameOverride: "did-auth-proxy"
-fullnameOverride: "did-auth-proxy"
+nameOverride: "did-auth-proxy-helm"
+fullnameOverride: "did-auth-proxy-helm"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -56,6 +56,24 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+config:
+  enabled: false
+  secretRefName: {}
+  configRefName: {}
+
+#for now dummy configs
+appValues:
+  PORT: 80
+  CACHE_SERVER_LOGIN_PRVKEY: eab5e5ccb983fad7bf7f5cb6b475a7aea95eff0c6523291b0c0ae38b5855459c
+  JWT_SECRET: asecretstring
+  ACCEPTED_ROLES: role1.roles.app-test2.apps.artur.iam.ewc
+
+
+opsValues:
+  RPC_URL: https://volta-rpc.energyweb.org/
+  CACHE_SERVER_URL: https://identitycache-dev.energyweb.org/v1
+
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -80,3 +98,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+sealedSecret:
+  enabled: false
+  annotations: {}
+  encryptedData: {}
