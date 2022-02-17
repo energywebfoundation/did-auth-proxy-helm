@@ -1,8 +1,6 @@
 apiVersion: v2
 name: did-auth-proxy-helm
-description: A Helm chart for Kubernetes
-
-NOTE: Angluar convention is used for commits, please refer: https://github.com/mathieudutour/github-tag-action"
+description: A Helm chart for DID auth proxy
 
 home: "https://github.com/energywebfoundation/did-auth-proxy-poc"
 # A chart can be either an 'application' or a 'library' chart.
