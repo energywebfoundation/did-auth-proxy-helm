@@ -48,7 +48,7 @@ jobs:
         run: |
           aws ecr get-login-password | helm registry login --username AWS --password-stdin ${{ secrets.HELM_REGISTRY }}
           helm package --dependency-update .
-          CHART_NAME=$( grep 'name:' Chart.yaml | tail -n 1)
+          CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
           helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://${{ secrets.HELM_REGISTRY }}
 
