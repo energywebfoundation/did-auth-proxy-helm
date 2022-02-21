@@ -6,6 +6,12 @@ A Helm chart for DID auth proxy
 
 **Homepage:** <https://github.com/energywebfoundation/did-auth-proxy-poc>
 
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | nginx | 9.7.5 |
+
 ## Values
 
 | Key | Type | Default | Description |
