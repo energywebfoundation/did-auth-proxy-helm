@@ -404,7 +404,34 @@ nginx:
   ##     }
   ##   }
   ##
-  serverBlock: ""
+  serverBlock: |-
+    server {
+        listen       80;
+        listen  [::]:80;
+        server_name  _;
+        resolver 172.20.0.10 ipv6=off valid=60s;
+
+        location = /auth/login {
+            proxy_pass http://did-auth-proxy-helm.did-auth.svc.cluster.local/auth/login;
+        }
+
+        location = /auth/refresh-token {
+            proxy_pass http://did-auth-proxy-helm.did-auth.svc.cluster.local/auth/refresh-token;
+        }
+
+        location / {
+            auth_request /token_introspection;
+            proxy_pass http://backend-nginx.did-auth.svc.cluster.local;
+        }
+
+        location = /token_introspection {
+            internal;
+            proxy_method      GET;
+            proxy_set_header  Authorization "$http_authorization";
+            proxy_set_header  Content-Length "";
+            proxy_pass        http://did-auth-proxy-helm.did-auth.svc.cluster.local/auth/token-introspection;
+        }
+    }
   ## @param existingServerBlockConfigmap ConfigMap with custom server block to be added to NGINX configuration
   ## NOTE: This will override serverBlock
   ##
