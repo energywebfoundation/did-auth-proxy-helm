@@ -1,6 +1,6 @@
 # did-auth-proxy-helm
 
-![Version: 0.0.7](https://img.shields.io/badge/Version-0.0.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.7](https://img.shields.io/badge/AppVersion-0.0.7-informational?style=flat-square)
+![Version: 0.0.8](https://img.shields.io/badge/Version-0.0.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.8](https://img.shields.io/badge/AppVersion-0.0.8-informational?style=flat-square)
 
 A Helm chart for DID auth proxy
 
@@ -10,7 +10,7 @@ A Helm chart for DID auth proxy
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | nginx | 9.7.5 |
+| https://charts.bitnami.com/bitnami | redis | 16.4.0 |
 
 ## Values
 
@@ -19,6 +19,8 @@ A Helm chart for DID auth proxy
 | affinity | object | `{}` |  |
 | appValues.ACCEPTED_ROLES | string | `"role1.roles.app-test2.apps.artur.iam.ewc"` |  |
 | appValues.CACHE_SERVER_LOGIN_PRVKEY | string | `"eab5e5ccb983fad7bf7f5cb6b475a7aea95eff0c6523291b0c0ae38b5855459c"` |  |
+| appValues.JWT_ACCESS_TTL | int | `3600` |  |
+| appValues.JWT_REFRESH_TTL | int | `86400` |  |
 | appValues.JWT_SECRET | string | `"asecretstring"` |  |
 | appValues.PORT | int | `80` |  |
 | autoscaling.enabled | bool | `false` |  |
@@ -29,10 +31,10 @@ A Helm chart for DID auth proxy
 | config.enabled | bool | `false` |  |
 | config.secretRefName | object | `{}` |  |
 | fullnameOverride | string | `"did-auth-proxy-helm"` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.pullPolicy | string | `"Always"` |  |
 | image.repository | string | `"098061033856.dkr.ecr.us-west-2.amazonaws.com/did-auth-proxy"` |  |
 | image.tag | string | `"latest"` |  |
-| imagePullSecrets | list | `[]` |  |
+| imagePullSecrets[0].name | string | `"regcred"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
@@ -43,9 +45,13 @@ A Helm chart for DID auth proxy
 | nameOverride | string | `"did-auth-proxy-helm"` |  |
 | nodeSelector | object | `{}` |  |
 | opsValues.CACHE_SERVER_URL | string | `"https://identitycache-dev.energyweb.org/v1"` |  |
+| opsValues.REDIS_HOST | string | `"did-proxy-auth-redis-master.did-auth.svc.cluster.local"` |  |
+| opsValues.REDIS_PASSWORD | string | `"redis"` |  |
+| opsValues.REDIS_PORT | int | `6379` |  |
 | opsValues.RPC_URL | string | `"https://volta-rpc.energyweb.org/"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
+| redis.auth.password | string | `"redis"` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | sealedSecret.annotations | object | `{}` |  |
