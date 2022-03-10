@@ -1,6 +1,6 @@
 # did-auth-proxy-helm
 
-![Version: 0.0.9](https://img.shields.io/badge/Version-0.0.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.9](https://img.shields.io/badge/AppVersion-0.0.9-informational?style=flat-square)
+![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.1.0](https://img.shields.io/badge/AppVersion-0.1.0-informational?style=flat-square)
 
 A Helm chart for DID auth proxy
 
@@ -17,7 +17,7 @@ A Helm chart for DID auth proxy
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| appValues.ACCEPTED_ROLES | string | `"role1.roles.app-test2.apps.artur.iam.ewc"` |  |
+| appValues.ACCEPTED_ROLES | string | `"didauthtest.roles.didauthkamil.iam.ewc"` |  |
 | appValues.CACHE_SERVER_LOGIN_PRVKEY | string | `"eab5e5ccb983fad7bf7f5cb6b475a7aea95eff0c6523291b0c0ae38b5855459c"` |  |
 | appValues.JWT_ACCESS_TTL | int | `3600` |  |
 | appValues.JWT_REFRESH_TTL | int | `86400` |  |
@@ -31,21 +31,31 @@ A Helm chart for DID auth proxy
 | config.enabled | bool | `false` |  |
 | config.secretRefName | object | `{}` |  |
 | fullnameOverride | string | `"did-auth-proxy-helm"` |  |
-| image.pullPolicy | string | `"Always"` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"098061033856.dkr.ecr.us-west-2.amazonaws.com/did-auth-proxy"` |  |
 | image.tag | string | `"latest"` |  |
 | imagePullSecrets[0].name | string | `"regcred"` |  |
-| ingress.annotations | object | `{}` |  |
+| ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| ingress.annotations."nginx.ingress.kubernetes.io/server-snippet" | string | `"location ~ / {\n    auth_request /token_introspection;\n    proxy_pass http://backend-nginx-influxdb.did.svc.cluster.local:8086;\n}\nlocation = /token_introspection {\n      internal;\n      proxy_method      GET;\n      proxy_set_header  Authorization \"$http_authorization\";\n      proxy_set_header  Content-Length \"\";\n      proxy_pass        http://did-auth-proxy-helm.did.svc.cluster.local/auth/token-introspection;\n}\n"` |  |
 | ingress.className | string | `""` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"chart-example.local"` |  |
-| ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
-| ingress.tls | list | `[]` |  |
+| ingress.enabled | bool | `true` |  |
+| ingress.hosts[0].host | string | `"did-auth-proxy-sandbox.energyweb.org"` |  |
+| ingress.hosts[0].paths[0].path | string | `"/auth"` |  |
+| ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| ingress.hosts[0].paths[1].path | string | `"/auth/login"` |  |
+| ingress.hosts[0].paths[1].pathType | string | `"Prefix"` |  |
+| ingress.hosts[0].paths[2].path | string | `"/auth/refresh-token"` |  |
+| ingress.hosts[0].paths[2].pathType | string | `"Prefix"` |  |
+| ingress.hosts[0].paths[3].path | string | `"/auth/token-introspection"` |  |
+| ingress.hosts[0].paths[3].pathType | string | `"Prefix"` |  |
+| ingress.hosts[0].paths[4].path | string | `"/"` |  |
+| ingress.hosts[0].paths[4].pathType | string | `"Prefix"` |  |
+| ingress.tls[0].hosts[0] | string | `"did-auth-proxy-sandbox.energyweb.org"` |  |
+| ingress.tls[0].secretName | string | `"did-auth-proxy-secret"` |  |
 | nameOverride | string | `"did-auth-proxy-helm"` |  |
 | nodeSelector | object | `{}` |  |
 | opsValues.CACHE_SERVER_URL | string | `"https://identitycache-dev.energyweb.org/v1"` |  |
-| opsValues.REDIS_HOST | string | `"did-proxy-auth-redis-master.did-auth.svc.cluster.local"` |  |
+| opsValues.REDIS_HOST | string | `"did-auth-proxy-helm-redis-master.did.svc.cluster.local"` |  |
 | opsValues.REDIS_PASSWORD | string | `"redis"` |  |
 | opsValues.REDIS_PORT | int | `6379` |  |
 | opsValues.RPC_URL | string | `"https://volta-rpc.energyweb.org/"` |  |
