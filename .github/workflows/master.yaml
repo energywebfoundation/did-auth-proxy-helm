@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - auth-server-azure
     paths:
       - Chart.yaml
 
@@ -42,7 +43,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Package & push helm chart
+      - name: Package & push helm chart (AWS)
         env:
           HELM_EXPERIMENTAL_OCI: 1
         run: |
@@ -50,11 +51,26 @@ jobs:
           helm package --dependency-update .
           CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
-          helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://${{ secrets.HELM_REGISTRY }}
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure CLI deploy to ACR
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.30.0
+          inlineScript: |
+            az acr helm install-cli --client-version 3.6.3 --yes
+            CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
+            CHART_NAME=${CHART_NAME//*name: /}
+            az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz
+      
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+          
