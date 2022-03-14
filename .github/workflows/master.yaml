@@ -65,6 +65,7 @@ jobs:
             az acr helm install-cli --client-version 3.6.3 --yes
             CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
             CHART_NAME=${CHART_NAME//*name: /}
+            helm package .
             az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz
       
       - name: Create a GitHub release
@@ -73,4 +74,3 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          
