@@ -60,13 +60,13 @@ jobs:
       - name: Azure CLI deploy to ACR
         uses: azure/CLI@v1
         with:
-          azcliversion: 2.30.0
+          azcliversion: 2.34.1
           inlineScript: |
             az acr helm install-cli --client-version 3.6.3 --yes
             CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
             CHART_NAME=${CHART_NAME//*name: /}
             helm package .
-            az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-0.0.11.tgz
+            az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz
       
       # - name: Create a GitHub release
       #   uses: ncipollo/release-action@v1
