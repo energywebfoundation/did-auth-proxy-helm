@@ -51,6 +51,7 @@ jobs:
           helm package --dependency-update .
           CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
+          helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://${{ secrets.HELM_REGISTRY }}
 
       - name: Azure Login
         uses: azure/login@v1
@@ -68,9 +69,9 @@ jobs:
             helm package .
             az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz
       
-      # - name: Create a GitHub release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     tag: ${{ steps.tag_version.outputs.new_tag }}
-      #     name: Release ${{ steps.tag_version.outputs.new_tag }}
-      #     body: ${{ steps.tag_version.outputs.changelog }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
