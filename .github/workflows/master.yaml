@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - auth-server-azure
     paths:
       - Chart.yaml
 
