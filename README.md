@@ -1,6 +1,6 @@
 # did-auth-proxy-helm
 
-![Version: 0.0.10](https://img.shields.io/badge/Version-0.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.10](https://img.shields.io/badge/AppVersion-0.0.10-informational?style=flat-square)
+![Version: 0.0.12](https://img.shields.io/badge/Version-0.0.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.11](https://img.shields.io/badge/AppVersion-0.0.11-informational?style=flat-square)
 
 A Helm chart for DID auth proxy
 
@@ -18,10 +18,8 @@ A Helm chart for DID auth proxy
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | appValues.ACCEPTED_ROLES | string | `"didauthtest.roles.didauthkamil.iam.ewc"` |  |
-| appValues.CACHE_SERVER_LOGIN_PRVKEY | string | `"eab5e5ccb983fad7bf7f5cb6b475a7aea95eff0c6523291b0c0ae38b5855459c"` |  |
 | appValues.JWT_ACCESS_TTL | int | `3600` |  |
 | appValues.JWT_REFRESH_TTL | int | `86400` |  |
-| appValues.JWT_SECRET | string | `"asecretstring"` |  |
 | appValues.PORT | int | `80` |  |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
@@ -56,7 +54,6 @@ A Helm chart for DID auth proxy
 | nodeSelector | object | `{}` |  |
 | opsValues.CACHE_SERVER_URL | string | `"https://identitycache-dev.energyweb.org/v1"` |  |
 | opsValues.REDIS_HOST | string | `"did-auth-proxy-helm-redis-master.did.svc.cluster.local"` |  |
-| opsValues.REDIS_PASSWORD | string | `"redis"` |  |
 | opsValues.REDIS_PORT | int | `6379` |  |
 | opsValues.RPC_URL | string | `"https://volta-rpc.energyweb.org/"` |  |
 | podAnnotations | object | `{}` |  |
