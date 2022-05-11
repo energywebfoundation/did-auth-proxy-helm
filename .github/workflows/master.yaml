@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - master
-    paths:
-      - Chart.yaml
+      - test-republish
+    # paths:
+    #   - Chart.yaml
 
 jobs:
   cancel-previous:
@@ -35,22 +36,22 @@ jobs:
           release_branches: master
           custom_release_rules: major:major:Major Changes,minor:minor:Minor Changes,chore:patch:Chores
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Package & push helm chart (AWS)
-        env:
-          HELM_EXPERIMENTAL_OCI: 1
-        run: |
-          aws ecr get-login-password | helm registry login --username AWS --password-stdin ${{ secrets.HELM_REGISTRY }}
-          helm package --dependency-update .
-          CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
-          CHART_NAME=${CHART_NAME//*name: /}
-          helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://${{ secrets.HELM_REGISTRY }}
+      # - name: Package & push helm chart (AWS)
+      #   env:
+      #     HELM_EXPERIMENTAL_OCI: 1
+      #   run: |
+      #     aws ecr get-login-password | helm registry login --username AWS --password-stdin ${{ secrets.HELM_REGISTRY }}
+      #     helm package --dependency-update .
+      #     CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
+      #     CHART_NAME=${CHART_NAME//*name: /}
+      #     helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://${{ secrets.HELM_REGISTRY }}
 
       - name: Azure Login
         uses: azure/login@v1
@@ -66,11 +67,11 @@ jobs:
             CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
             CHART_NAME=${CHART_NAME//*name: /}
             helm package .
-            az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY }} ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz
+            az acr helm push -n ${{ secrets.AZURE_HELM_REGISTRY_P }} ${CHART_NAME}-0.1.0.tgz
       
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+      # - name: Create a GitHub release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     tag: ${{ steps.tag_version.outputs.new_tag }}
+      #     name: Release ${{ steps.tag_version.outputs.new_tag }}
+      #     body: ${{ steps.tag_version.outputs.changelog }}
