@@ -50,7 +50,7 @@ jobs:
           helm package --dependency-update .
           CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
-          helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://public.ecr.aws/p2b6f2f9
+          helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://public.ecr.aws/p2b6f2f9/did-auth-helm
 
       - name: Azure Login
         uses: azure/login@v1
