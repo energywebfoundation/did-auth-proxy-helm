@@ -46,7 +46,7 @@ jobs:
         env:
           HELM_EXPERIMENTAL_OCI: 1
         run: |
-          aws ecr-public get-login-password | helm registry login --username AWS --password-stdin public.ecr.aws
+          aws ecr-public get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin public.ecr.aws
           helm package --dependency-update .
           CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
