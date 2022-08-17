@@ -1,6 +1,6 @@
 # did-auth-proxy-helm
 
-![Version: 0.0.12](https://img.shields.io/badge/Version-0.0.12-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.11](https://img.shields.io/badge/AppVersion-0.0.11-informational?style=flat-square)
+![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.14](https://img.shields.io/badge/AppVersion-0.0.14-informational?style=flat-square)
 
 A Helm chart for DID auth proxy
 
@@ -10,6 +10,7 @@ A Helm chart for DID auth proxy
 
 | Repository | Name | Version |
 |------------|------|---------|
+| https://charts.bitnami.com/bitnami | nginx | 10.2.1 |
 | https://charts.bitnami.com/bitnami | redis | 16.4.0 |
 
 ## Values
@@ -34,23 +35,32 @@ A Helm chart for DID auth proxy
 | image.tag | string | `"latest"` |  |
 | imagePullSecrets[0].name | string | `"regcred"` |  |
 | ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| ingress.annotations."nginx.ingress.kubernetes.io/server-snippet" | string | `"location ~ / {\n    auth_request /token_introspection;\n    proxy_pass http://backend-nginx-influxdb.did.svc.cluster.local:8086;\n}\nlocation = /token_introspection {\n      internal;\n      proxy_method      GET;\n      proxy_set_header  Authorization \"$http_authorization\";\n      proxy_set_header  Content-Length \"\";\n      proxy_pass        http://did-auth-proxy-helm.did.svc.cluster.local/auth/token-introspection;\n}\n"` |  |
 | ingress.className | string | `""` |  |
-| ingress.enabled | bool | `true` |  |
+| ingress.enabled | bool | `false` |  |
 | ingress.hosts[0].host | string | `"did-auth-proxy-sandbox.energyweb.org"` |  |
-| ingress.hosts[0].paths[0].path | string | `"/auth"` |  |
+| ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
-| ingress.hosts[0].paths[1].path | string | `"/auth/login"` |  |
-| ingress.hosts[0].paths[1].pathType | string | `"Prefix"` |  |
-| ingress.hosts[0].paths[2].path | string | `"/auth/refresh-token"` |  |
-| ingress.hosts[0].paths[2].pathType | string | `"Prefix"` |  |
-| ingress.hosts[0].paths[3].path | string | `"/auth/token-introspection"` |  |
-| ingress.hosts[0].paths[3].pathType | string | `"Prefix"` |  |
-| ingress.hosts[0].paths[4].path | string | `"/"` |  |
-| ingress.hosts[0].paths[4].pathType | string | `"Prefix"` |  |
 | ingress.tls[0].hosts[0] | string | `"did-auth-proxy-sandbox.energyweb.org"` |  |
 | ingress.tls[0].secretName | string | `"did-auth-proxy-secret"` |  |
 | nameOverride | string | `"did-auth-proxy-helm"` |  |
+| nginx.customLivenessProbe.httpGet.path | string | `"/auth"` |  |
+| nginx.customLivenessProbe.httpGet.port | string | `"http"` |  |
+| nginx.customReadinessProbe.httpGet.path | string | `"/auth"` |  |
+| nginx.customReadinessProbe.httpGet.port | string | `"http"` |  |
+| nginx.fullnameOverride | string | `"did-auth-proxy-nginx"` |  |
+| nginx.ingress.annotations."appgw.ingress.kubernetes.io/ssl-redirect" | string | `"true"` |  |
+| nginx.ingress.annotations."kubernetes.io/ingress.class" | string | `"azure/application-gateway"` |  |
+| nginx.ingress.enabled | bool | `false` |  |
+| nginx.ingress.extraTls[0].hosts[0] | string | `"ddhub-dev.energyweb.org"` |  |
+| nginx.ingress.extraTls[0].secretName | string | `"dsb-tls-secret"` |  |
+| nginx.ingress.hostname | string | `"ddhub-dev.energyweb.org"` |  |
+| nginx.ingress.path | string | `"/"` |  |
+| nginx.ingress.pathType | string | `"Prefix"` |  |
+| nginx.ingress.tls | bool | `false` |  |
+| nginx.livenessProbe.enabled | bool | `false` |  |
+| nginx.readinessProbe.enabled | bool | `false` |  |
+| nginx.serverBlock | string | `"server {\n  listen 0.0.0.0:8080;\n  server_name  _;\n  location ~ ^/(backend-docs|backend-health) {\n      proxy_pass http://backend-server.namespace.svc.cluster.local;\n  }\n  location ~ ^/auth {\n      proxy_pass http://did-auth-proxy-helm.namespace.svc.cluster.local;\n  }\n  location ~ / {\n      auth_request /token_introspection;\n      proxy_pass http://backend-server.namespace.svc.cluster.local;\n  }\n  location = /token_introspection {\n        internal;\n        proxy_method      GET;\n        proxy_set_header  Authorization \"$http_authorization\";\n        proxy_set_header  Content-Length \"\";\n        proxy_pass        http://did-auth-proxy-helm.namespace.svc.cluster.local/auth/token-introspection;\n  }\n}"` |  |
+| nginx.service.type | string | `"ClusterIP"` |  |
 | nodeSelector | object | `{}` |  |
 | opsValues.CACHE_SERVER_URL | string | `"https://identitycache-dev.energyweb.org/v1"` |  |
 | opsValues.REDIS_HOST | string | `"did-auth-proxy-helm-redis-master.did.svc.cluster.local"` |  |
