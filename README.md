@@ -1,6 +1,6 @@
 # did-auth-proxy-helm
 
-![Version: 0.1.6](https://img.shields.io/badge/Version-0.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.14](https://img.shields.io/badge/AppVersion-0.0.14-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.0.15](https://img.shields.io/badge/AppVersion-0.0.15-informational?style=flat-square)
 
 A Helm chart for DID auth proxy
 
@@ -18,9 +18,6 @@ A Helm chart for DID auth proxy
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| appValues.ACCEPTED_ROLES | string | `"didauthtest.roles.didauthkamil.iam.ewc"` |  |
-| appValues.JWT_ACCESS_TTL | int | `3600` |  |
-| appValues.JWT_REFRESH_TTL | int | `86400` |  |
 | appValues.PORT | int | `80` |  |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `100` |  |
@@ -62,13 +59,11 @@ A Helm chart for DID auth proxy
 | nginx.serverBlock | string | `"server {\n  listen 0.0.0.0:8080;\n  server_name  _;\n  location ~ ^/(backend-docs|backend-health) {\n      proxy_pass http://backend-server.namespace.svc.cluster.local;\n  }\n  location ~ ^/auth {\n      proxy_pass http://did-auth-proxy-helm.namespace.svc.cluster.local;\n  }\n  location ~ / {\n      auth_request /token_introspection;\n      proxy_pass http://backend-server.namespace.svc.cluster.local;\n  }\n  location = /token_introspection {\n        internal;\n        proxy_method      GET;\n        proxy_set_header  Authorization \"$http_authorization\";\n        proxy_set_header  Content-Length \"\";\n        proxy_pass        http://did-auth-proxy-helm.namespace.svc.cluster.local/auth/token-introspection;\n  }\n}"` |  |
 | nginx.service.type | string | `"ClusterIP"` |  |
 | nodeSelector | object | `{}` |  |
-| opsValues.CACHE_SERVER_URL | string | `"https://identitycache-dev.energyweb.org/v1"` |  |
-| opsValues.REDIS_HOST | string | `"did-auth-proxy-helm-redis-master.did.svc.cluster.local"` |  |
 | opsValues.REDIS_PORT | int | `6379` |  |
-| opsValues.RPC_URL | string | `"https://volta-rpc.energyweb.org/"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | redis.auth.password | string | `"redis"` |  |
+| redis.enabled | bool | `true` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | sealedSecret.annotations | object | `{}` |  |
