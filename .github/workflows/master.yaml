@@ -47,6 +47,7 @@ jobs:
           HELM_EXPERIMENTAL_OCI: 1
         run: |
           aws ecr-public get-login-password --region us-east-1 | helm registry login --username AWS --password-stdin public.ecr.aws
+          helm package .
           CHART_NAME=$( grep 'name:' Chart.yaml | head -n 1)
           CHART_NAME=${CHART_NAME//*name: /}
           helm push ${CHART_NAME}-${{ steps.tag_version.outputs.new_version }}.tgz oci://public.ecr.aws/p2b6f2f9
