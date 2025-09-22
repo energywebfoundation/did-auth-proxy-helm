@@ -105,6 +105,7 @@ sealedSecret:
 # Redis
 
 redis:
+  enabled: true
   auth:
     password: redis
 
