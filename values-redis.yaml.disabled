@@ -65,7 +65,7 @@ redis:
   ##
 
   ## Bitnami Redis&trade; image
-  ## ref: https://hub.docker.com/r/bitnami/redis/tags/
+  ## ref: https://hub.docker.com/r/bitnamilegacy/redis/tags/
   ## @param image.registry Redis&trade; image registry
   ## @param image.repository Redis&trade; image repository
   ## @param image.tag Redis&trade; image tag (immutable tags are recommended)
@@ -75,7 +75,7 @@ redis:
   ##
   image:
     registry: docker.io
-    repository: bitnami/redis
+    repository: bitnamilegacy/redis
     tag: 6.2.6-debian-10-r120
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -841,7 +841,7 @@ redis:
     ##
     enabled: false
     ## Bitnami Redis&trade; Sentinel image version
-    ## ref: https://hub.docker.com/r/bitnami/redis-sentinel/tags/
+    ## ref: https://hub.docker.com/r/bitnamilegacy/redis-sentinel/tags/
     ## @param sentinel.image.registry Redis&trade; Sentinel image registry
     ## @param sentinel.image.repository Redis&trade; Sentinel image repository
     ## @param sentinel.image.tag Redis&trade; Sentinel image tag (immutable tags are recommended)
@@ -851,7 +851,7 @@ redis:
     ##
     image:
       registry: docker.io
-      repository: bitnami/redis-sentinel
+      repository: bitnamilegacy/redis-sentinel
       tag: 6.2.6-debian-10-r118
       ## Specify a imagePullPolicy
       ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -1205,7 +1205,7 @@ redis:
     ##
     enabled: false
     ## Bitnami Redis&trade; Exporter image
-    ## ref: https://hub.docker.com/r/bitnami/redis-exporter/tags/
+    ## ref: https://hub.docker.com/r/bitnamilegacy/redis-exporter/tags/
     ## @param metrics.image.registry Redis&trade; Exporter image registry
     ## @param metrics.image.repository Redis&trade; Exporter image repository
     ## @param metrics.image.tag Redis&trade; Redis&trade; Exporter image tag (immutable tags are recommended)
@@ -1214,7 +1214,7 @@ redis:
     ##
     image:
       registry: docker.io
-      repository: bitnami/redis-exporter
+      repository: bitnamilegacy/redis-exporter
       tag: 1.35.0-debian-10-r2
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.
