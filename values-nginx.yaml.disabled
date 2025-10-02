@@ -42,7 +42,7 @@ nginx:
   ## @section NGINX parameters
 
   ## Bitnami NGINX image version
-  ## ref: https://hub.docker.com/r/bitnami/nginx/tags/
+  ## ref: https://hub.docker.com/r/bitnamisecure/nginx/tags/
   ## @param image.registry NGINX image registry
   ## @param image.repository NGINX image repository
   ## @param image.tag NGINX image tag (immutable tags are recommended)
@@ -52,7 +52,7 @@ nginx:
   ##
   image:
     registry: docker.io
-    repository: bitnami/nginx
+    repository: bitnamisecure/nginx
     tag: 1.21.6-debian-10-r23
     ## Specify a imagePullPolicy
     ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -458,7 +458,7 @@ nginx:
     ##
     enabled: false
     ## Bitnami NGINX LDAP Auth Daemon image
-    ## ref: https://hub.docker.com/r/bitnami/nginx-ldap-auth-daemon/tags/
+    ## ref: https://hub.docker.com/r/bitnamisecure/nginx-ldap-auth-daemon/tags/
     ## @param ldapDaemon.image.registry LDAP AUth Daemon Image registry
     ## @param ldapDaemon.image.repository LDAP Auth Daemon Image repository
     ## @param ldapDaemon.image.tag LDAP Auth Daemon Image tag (immutable tags are recommended)
@@ -466,7 +466,7 @@ nginx:
     ##
     image:
       registry: docker.io
-      repository: bitnami/nginx-ldap-auth-daemon
+      repository: bitnamisecure/nginx-ldap-auth-daemon
       tag: 0.20200116.0-debian-10-r589
       pullPolicy: IfNotPresent
     ## @param ldapDaemon.port LDAP Auth Daemon port
@@ -789,7 +789,7 @@ nginx:
     ## Defaults to specified http port
     port: ""
     ## Bitnami NGINX Prometheus Exporter image
-    ## ref: https://hub.docker.com/r/bitnami/nginx-exporter/tags/
+    ## ref: https://hub.docker.com/r/bitnamisecure/nginx-exporter/tags/
     ## @param metrics.image.registry NGINX Prometheus exporter image registry
     ## @param metrics.image.repository NGINX Prometheus exporter image repository
     ## @param metrics.image.tag NGINX Prometheus exporter image tag (immutable tags are recommended)
@@ -798,7 +798,7 @@ nginx:
     ##
     image:
       registry: docker.io
-      repository: bitnami/nginx-exporter
+      repository: bitnamisecure/nginx-exporter
       tag: 0.10.0-debian-10-r56
       pullPolicy: IfNotPresent
       ## Optionally specify an array of imagePullSecrets.

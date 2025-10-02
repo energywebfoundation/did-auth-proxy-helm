@@ -6,10 +6,10 @@ entries:
     created: "2023-04-11T15:57:21.892143+01:00"
     dependencies:
     - name: redis
-      repository: https://charts.bitnami.com/bitnami
+      repository: https://charts.bitnami.com/bitnamisecure
       version: 16.4.0
     - name: nginx
-      repository: https://charts.bitnami.com/bitnami
+      repository: https://charts.bitnami.com/bitnamisecure
       version: 10.2.1
     description: A Helm chart for DID auth proxy
     digest: bbfd783a4934429a6ec4b4f0e7654cde7c0a0a96c35d608c712dedb1bf31d720
@@ -27,7 +27,7 @@ entries:
     created: "2023-04-11T15:57:21.893594+01:00"
     dependencies:
     - name: common
-      repository: https://charts.bitnami.com/bitnami
+      repository: https://charts.bitnami.com/bitnamisecure
       tags:
       - bitnami-common
       version: 1.x.x
@@ -35,7 +35,7 @@ entries:
       proxy, load balancer, and HTTP cache. Recommended for high-demanding sites due
       to its ability to provide faster content.
     digest: 3c2f5a19d3db27d7c680e4fa1eb4ba056e1dac9caf7a4cdbd9d8df423ef73fb0
-    home: https://github.com/bitnami/charts/tree/master/bitnami/nginx
+    home: https://github.com/bitnami/charts/tree/master/bitnamisecure/nginx
     icon: https://bitnami.com/assets/stacks/nginx/img/nginx-stack-220x234.png
     keywords:
     - nginx
@@ -61,7 +61,7 @@ entries:
     created: "2023-04-11T15:57:21.896228+01:00"
     dependencies:
     - name: common
-      repository: https://charts.bitnami.com/bitnami
+      repository: https://charts.bitnami.com/bitnamisecure
       tags:
       - bitnami-common
       version: 1.x.x
@@ -69,7 +69,7 @@ entries:
       referred to as a data structure server since keys can contain strings, hashes,
       lists, sets and sorted sets.
     digest: da5ffafdc9419d36b4447d99e9a38e440cc76db49f768d45931baa8b5e85782b
-    home: https://github.com/bitnami/charts/tree/master/bitnami/redis
+    home: https://github.com/bitnami/charts/tree/master/bitnamisecure/redis
     icon: https://bitnami.com/assets/stacks/redis/img/redis-stack-220x234.png
     keywords:
     - redis
