@@ -106,6 +106,10 @@ sealedSecret:
 
 redis:
   enabled: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+    tag: 7.2.4-debian-12-r13
   auth:
     password: redis
 
@@ -113,6 +117,10 @@ redis:
 # nginx
 
 nginx:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/nginx
+    tag: 1.27.2-debian-12-r5
   fullnameOverride: "did-auth-proxy-nginx"
   service:
     type: ClusterIP
