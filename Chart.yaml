@@ -28,7 +28,7 @@ dependencies:
   - name: redis
     condition: redis.enabled
     version: 16.4.0
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
   - name: nginx
     version: 10.2.1
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
